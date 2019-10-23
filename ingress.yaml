@@ -13,7 +13,11 @@ spec:
       - backend:
           serviceName: poi
           servicePort: 80
-        path: /aoi/poi
+        path: /api/poi
+      - backend:
+          serviceName: poi
+          servicePort: 80
+        path: /api/docs/poi
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
