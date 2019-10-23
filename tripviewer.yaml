@@ -44,3 +44,7 @@ spec:
           value: "sqlservermoq4816.database.windows.net"
         - name: SQLDB
           value: "mydrivingDB"
+        - name: USER_API_ENDPOINT
+          value: "http://user"
+        - name: TRIPS_API_ENDPOINT
+          value: "http://trips"
