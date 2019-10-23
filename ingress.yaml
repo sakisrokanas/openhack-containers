@@ -13,7 +13,7 @@ spec:
       - backend:
           serviceName: poi
           servicePort: 80
-        path: /
+        path: /aoi/poi
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -30,7 +30,7 @@ spec:
       - backend:
           serviceName: trips
           servicePort: 80
-        path: /
+        path: /api/trips
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -64,7 +64,7 @@ spec:
       - backend:
           serviceName: user
           servicePort: 80
-        path: /
+        path: /api/user
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -81,4 +81,4 @@ spec:
       - backend:
           serviceName: userprofile
           servicePort: 80
-        path: /
+        path: /user-java
