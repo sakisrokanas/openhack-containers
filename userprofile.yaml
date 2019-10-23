@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: userprofile
+  labels:
+    run: userprofile
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    run: userprofile
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userprofile-deployment
+  labels:
+    app: userprofile-test-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: userprofile
+  template:
+    metadata:
+      labels:
+        app: userprofile
+    spec:
+      containers:
+      - name: userprofile
+        image: registrymoq4816.azurecr.io/tripinsights/userprofile:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: SQL_USER
+          value: "sqladminmOq4816"
+        - name: SQL_PASSWORD
+          value: "gY7c54Cr6"
+        - name: SQL_SERVER
+          value: "sqlservermoq4816.database.windows.net"
+        - name: SQLDB
+          value: "mydrivingDB"    
