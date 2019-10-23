@@ -1,0 +1,55 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: web-dev-admin-binding
+  namespace: web-dev
+subjects:
+- kind: User
+  name: webdev@OTAPRD142ops.onmicrosoft.com
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: web-dev-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: web-dev-reader-binding
+  namespace: web-dev
+subjects:
+- kind: User
+  name: apidev@OTAPRD142ops.onmicrosoft.com
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: web-dev-reader
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: api-dev-admin-binding
+  namespace: api-dev
+subjects:
+- kind: User
+  name: apidev@OTAPRD142ops.onmicrosoft.com
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: api-dev-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: api-dev-reader-binding
+  namespace: api-dev
+subjects:
+- kind: User
+  name: webdev@OTAPRD142ops.onmicrosoft.com
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: api-dev-reader
+  apiGroup: rbac.authorization.k8s.io
