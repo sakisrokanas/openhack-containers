@@ -1,0 +1,8 @@
+# Creating k8s secret
+kubectl create secret generic kvcreds --from-literal clientid=a07fed7b-35e0-4061-98ce-2d04ac8e2953 --from-literal clientsecret=mCDbT-Q90/xR?icOi97c-FB7EC6OQ9f --type=azure/kv
+
+# Assigning permissions (Access policy in AKV) for k8s secret SPN
+az role assignment create --role Reader --assignee a07fed7b-35e0-4061-98ce-2d04ac8e2953 --scope /subscriptions/e9ebdd32-b7fa-4f0a-a24f-84f0abd95900/resourcegroups/teamResources/providers/Microsoft.KeyVault/vaults/Teams12KeyVault
+az keyvault set-policy -n $KV_NAME --key-permissions get --spn a07fed7b-35e0-4061-98ce-2d04ac8e2953
+az keyvault set-policy -n $KV_NAME --secret-permissions get --spn a07fed7b-35e0-4061-98ce-2d04ac8e2953
+az keyvault set-policy -n $KV_NAME --certificate-permissions get --spn a07fed7b-35e0-4061-98ce-2d04ac8e2953
