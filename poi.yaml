@@ -5,9 +5,9 @@ metadata:
   labels:
     run: poi
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
-  - port: 8080
+  - port: 80
     targetPort: 80
     protocol: TCP
     name: http
@@ -44,3 +44,19 @@ spec:
           value: "sqlservermoq4816.database.windows.net"
         - name: SQLDB
           value: "mydrivingDB"
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: poi
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: poi.<CLUSTER_SPECIFIC_DNS_ZONE>
+    http:
+      paths:
+      - backend:
+          serviceName: poi
+          servicePort: 80
+        path: /
