@@ -81,4 +81,4 @@ spec:
       - backend:
           serviceName: userprofile
           servicePort: 80
-        path: /
+        path: /user-java
