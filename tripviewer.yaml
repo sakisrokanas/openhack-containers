@@ -6,7 +6,7 @@ metadata:
   labels:
     run: tripviewer
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 80
     targetPort: 80
@@ -49,4 +49,4 @@ spec:
         - name: USER_API_ENDPOINT
           value: "http://userprofile"
         - name: TRIPS_API_ENDPOINT
-          value: "http://trips:8080"
+          value: "http://trips"

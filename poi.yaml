@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: poi
+  namespace: api-dev
   labels:
     run: poi
 spec:
@@ -18,6 +19,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: poi-deployment
+  namespace: api-dev
   labels:
     app: poi-test-deployment
 spec:
@@ -44,19 +46,3 @@ spec:
           value: "sqlservermoq4816.database.windows.net"
         - name: SQLDB
           value: "mydrivingDB"
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: poi
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
-spec:
-  rules:
-  - host: poi.<CLUSTER_SPECIFIC_DNS_ZONE>
-    http:
-      paths:
-      - backend:
-          serviceName: poi
-          servicePort: 80
-        path: /

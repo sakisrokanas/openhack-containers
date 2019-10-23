@@ -1,0 +1,84 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: poi
+  namespace: api-dev
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: poi.<CLUSTER_SPECIFIC_DNS_ZONE>
+    http:
+      paths:
+      - backend:
+          serviceName: poi
+          servicePort: 80
+        path: /
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: trips
+  namespace: api-dev
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: trips.<CLUSTER_SPECIFIC_DNS_ZONE>
+    http:
+      paths:
+      - backend:
+          serviceName: trips
+          servicePort: 80
+        path: /
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tripviewer
+  namespace: web-dev
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: tripviewer.<CLUSTER_SPECIFIC_DNS_ZONE>
+    http:
+      paths:
+      - backend:
+          serviceName: tripviewer
+          servicePort: 80
+        path: /
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: user
+  namespace: api-dev
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: user.<CLUSTER_SPECIFIC_DNS_ZONE>
+    http:
+      paths:
+      - backend:
+          serviceName: user
+          servicePort: 80
+        path: /
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: userprofile
+  namespace: api-dev
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: userprofile.<CLUSTER_SPECIFIC_DNS_ZONE>
+    http:
+      paths:
+      - backend:
+          serviceName: userprofile
+          servicePort: 80
+        path: /
