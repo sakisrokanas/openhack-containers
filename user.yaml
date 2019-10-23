@@ -35,12 +35,12 @@ spec:
         image: registrymoq4816.azurecr.io/tripinsights/user-java:latest
         ports:
         - containerPort: 80
-      env:
-       - name: SQL_USER
-         value: "sqladminmOq4816"
-       - name: SQL_PASSWORD
-         value: "gY7c54Cr6"
-       - name: SQL_SERVER
-         value: "sqlservermoq4816.database.windows.net"
-       - name: SQLDB
-         value: "mydrivingDB"
+        env:
+        - name: SQL_USER
+          value: "sqladminmOq4816"
+        - name: SQL_PASSWORD
+          value: "gY7c54Cr6"
+        - name: SQL_SERVER
+          value: "sqlservermoq4816.database.windows.net"
+        - name: SQLDB
+          value: "mydrivingDB"
