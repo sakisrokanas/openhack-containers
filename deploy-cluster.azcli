@@ -1,0 +1,129 @@
+
+aksname="aksTripinsights"
+
+# Create the Azure AD application
+serverApplicationId=$(az ad app create \
+    --display-name "${aksname}Server" \
+    --identifier-uris "https://${aksname}Server" \
+    --query appId -o tsv)
+
+# AppId: 23bfacd9-ba76-4ec4-8a2d-95060f76112e
+
+# Update the application group memebership claims
+az ad app update --id $serverApplicationId --set groupMembershipClaims=All
+
+# Create a service principal for the Azure AD application
+az ad sp create --id $serverApplicationId
+
+# "appOwnerTenantId": "d6135023-56cd-4f8d-9e4b-bdf44a027d79"
+#  "objectId": "6c3a62ff-b15e-40fa-9b31-56bfec5930ed",
+#  "objectType": "ServicePrincipal",
+
+# Get the service principal secret
+serverApplicationSecret=$(az ad sp credential reset \
+    --name $serverApplicationId \
+    --credential-description "AKSPassword" \
+    --query password -o tsv)
+
+# SP secret: 934a6b83-6a24-41e0-bcb2-45638a3e98d5
+
+# Add permissions
+az ad app permission add \
+    --id $serverApplicationId \
+    --api 00000003-0000-0000-c000-000000000000 \
+    --api-permissions e1fe6dd8-ba31-4d61-89e7-88639da4683d=Scope 06da0dbc-49e2-44d2-8312-53f166ab848a=Scope 7ab1d382-f21e-4acd-a863-ba3e13f7da61=Role
+
+az ad app permission grant --id $serverApplicationId --api 00000003-0000-0000-c000-000000000000
+az ad app permission admin-consent --id $serverApplicationId
+
+# Create Azure AD client component
+## The second Azure AD application is used when a user logs to the AKS cluster with the Kubernetes CLI (kubectl). 
+## This client application takes the authentication request from the user and verifies their credentials and permissions.
+
+clientApplicationId=$(az ad app create \
+    --display-name "${aksname}Client" \
+    --native-app \
+    --reply-urls "https://${aksname}Client" \
+    --query appId -o tsv)
+
+# AppId: a6bc9570-d97e-4a62-8602-c66d7513147d
+
+az ad sp create --id $clientApplicationId
+
+#   "objectId": "70e421f4-1ba0-47cc-858d-6b7ed0b547e8",
+#   "objectType": "ServicePrincipal",
+#   "servicePrincipalNames": [    "a6bc9570-d97e-4a62-8602-c66d7513147d"
+
+oAuthPermissionId=$(az ad app show --id $serverApplicationId --query "oauth2Permissions[0].id" -o tsv)
+
+az ad app permission add --id $clientApplicationId --api $serverApplicationId --api-permissions $oAuthPermissionId=Scope
+az ad app permission grant --id $clientApplicationId --api $serverApplicationId
+
+# {
+#  "clientId": "70e421f4-1ba0-47cc-858d-6b7ed0b547e8",
+#  "consentType": "AllPrincipals",
+#  "expiryTime": "2020-10-23T09:56:10.76937",
+#  "objectId": "9CHkcKAbzEeFjWt-0LVH6P9iOmxesfpAmzFWv-xZMO0",
+#  "odata.metadata": "https://graph.windows.net/d6135023-56cd-4f8d-9e4b-bdf44a027d79/$metadata#oauth2PermissionGrants/@Element",
+#  "odatatype": null,
+#  "principalId": null,
+#  "resourceId": "6c3a62ff-b15e-40fa-9b31-56bfec5930ed",
+#  "scope": "user_impersonation",
+#  "startTime": "2019-10-23T09:56:10.76937"
+# }
+
+
+# Deploy the cluster
+
+az group create --name myResourceGroup --location WestEurope
+
+tenantId=$(az account show --query tenantId -o tsv)
+# TenantId: d6135023-56cd-4f8d-9e4b-bdf44a027d79
+
+# Modified
+az aks create \
+    --resource-group teamresources \
+    --name $aksname \
+    --node-count 2 \
+    --generate-ssh-keys \
+    --network-plugin azure \
+    --vnet-subnet-id /subscriptions/e9ebdd32-b7fa-4f0a-a24f-84f0abd95900/resourceGroups/teamResources/providers/Microsoft.Network/virtualNetworks/vnet/subnets/aks-subnet \
+    --aad-server-app-id $serverApplicationId \
+    --aad-server-app-secret $serverApplicationSecret \
+    --aad-client-app-id $clientApplicationId \
+    --aad-tenant-id $tenantId
+
+az aks get-credentials --resource-group teamresources --name $aksname --admin
+
+az ad signed-in-user show --query userPrincipalName -o tsv
+
+## Create a YAML manifest named basic-azure-ad-binding.yaml and paste the following contents. 
+## On the last line, replace userPrincipalName_or_objectId with the UPN or object ID output from the previous command
+
+# Apply the YAML file
+kubectl apply -f basic-azure-ad-binding.yaml
+
+# Testing
+az aks get-credentials --resource-group teamresources --name $aksname --overwrite-existing
+
+kubectl get pods --all-namespaces
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Web-dev User: webdev@OTAPRD142ops.onmicrosoft.com
+Web-dev PW: 6U7pf1Wy2
+Api-dev User: apidev@OTAPRD142ops.onmicrosoft.com
+Api-dev PW: 4G7xw6Yo6
