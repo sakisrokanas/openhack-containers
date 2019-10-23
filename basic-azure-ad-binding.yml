@@ -10,3 +10,12 @@ subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: User
   name: hacker3ui4@OTAPRD142ops.onmicrosoft.com
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: hacker1usb@OTAPRD142ops.onmicrosoft.com
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: hacker215f@OTAPRD142ops.onmicrosoft.com
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: hacker4sjn@OTAPRD142ops.onmicrosoft.com
