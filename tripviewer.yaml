@@ -45,6 +45,6 @@ spec:
         - name: SQLDB
           value: "mydrivingDB"
         - name: USER_API_ENDPOINT
-          value: "http://user"
+          value: "http://userprofile"
         - name: TRIPS_API_ENDPOINT
-          value: "http://trips"
+          value: "http://trips:8080"
