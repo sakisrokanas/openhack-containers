@@ -12,7 +12,7 @@ spec:
     protocol: TCP
     name: http
   selector:
-    run: userprofile
+    app: userprofile
 ---
 apiVersion: apps/v1
 kind: Deployment

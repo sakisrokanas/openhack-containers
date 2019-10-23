@@ -12,7 +12,7 @@ spec:
     protocol: TCP
     name: http
   selector:
-    run: trips
+    app: trips
 ---
 apiVersion: apps/v1
 kind: Deployment
