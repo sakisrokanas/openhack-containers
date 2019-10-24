@@ -54,7 +54,7 @@ spec:
             keyvaultname: "Teams12KeyVault"              # [REQUIRED] the name of the KeyVault
             keyvaultobjectnames: "SQLDB;SQLSERVER;SQLPASSWORD;SQLUSER"         # [REQUIRED] list of KeyVault object names (semi-colon separated)
             keyvaultobjectaliases: "SQLDB;SQL_SERVER;SQL_PASSWORD;SQL_USER"      # [OPTIONAL] list of KeyVault object aliases
-            keyvaultobjecttypes: secret               # [REQUIRED] list of KeyVault object types: secret, key, cert
+            keyvaultobjecttypes: "secret;secret;secret;secret"              # [REQUIRED] list of KeyVault object types: secret, key, cert
             resourcegroup: "teamResources"        # [REQUIRED for version < v0.0.14] the resource group of the KeyVault
             subscriptionid: "e9ebdd32-b7fa-4f0a-a24f-84f0abd95900"                 # [REQUIRED for version < v0.0.14] the subscription ID of the KeyVault
             tenantid: "d6135023-56cd-4f8d-9e4b-bdf44a027d79"                    # [REQUIRED] the tenant ID of the KeyVault

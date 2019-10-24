@@ -9,7 +9,7 @@ metadata:
   labels:
     app: keyvault-flexvolume
   name: keyvault-flexvolume
-  namespace: api-dev
+  namespace: kv
 spec:
   updateStrategy:
     type: RollingUpdate
