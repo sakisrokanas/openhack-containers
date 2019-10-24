@@ -1,0 +1,28 @@
+//How many requests are coming to your cluster?
+//How much memory is allocatable per node in your cluster?
+//What is the CPU usage of your workload? 
+
+Perf
+| where ObjectName == "K8SContainer" and CounterName == "cpuUsageNanoCores" 
+and (InstanceName has "trips" 
+or InstanceName has "user" 
+or InstanceName has "tripviewer" 
+or InstanceName has "userprofile" 
+or InstanceName has "poi" 
+or InstanceName has "insurance" )
+| summarize AvgCPUUsageNanoCores = avg(CounterValue) by bin(TimeGenerated, 30m), InstanceName
+
+//What is the CPU usage of internal Kubernetes tools?
+
+Perf
+| where ObjectName == "K8SContainer" and CounterName == "cpuUsageNanoCores" 
+and InstanceName !has "trips" 
+and InstanceName !has "user" 
+and InstanceName !has "tripviewer" 
+and InstanceName !has "userprofile" 
+and InstanceName !has "poi" 
+and InstanceName !has "insurance" 
+| summarize AvgCPUUsageNanoCores = avg(CounterValue) by bin(TimeGenerated, 30m), InstanceName
+
+//How many pods are currently pending?  
+//Which pod is consuming the most memory?
