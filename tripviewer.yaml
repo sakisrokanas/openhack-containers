@@ -39,9 +39,9 @@ spec:
         - containerPort: 80
         env:
         - name: USER_API_ENDPOINT
-          value: "http://userprofile"
+          value: "http://userprofile.api-dev"
         - name: TRIPS_API_ENDPOINT
-          value: "http://trips"
+          value: "http://trips.api-dev"
         volumeMounts:
         - name: flex
           mountPath: /secrets

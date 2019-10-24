@@ -6,7 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    #nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
   - http:
@@ -14,16 +14,80 @@ spec:
       - backend:
           serviceName: poi
           servicePort: 80
-        path: /api/poi(.*)
+        path: /api/docs/poi
+      - backend:
+          serviceName: poi
+          servicePort: 80
+        path: /api/healthcheck/poi
+      - backend:
+          serviceName: poi
+          servicePort: 80
+        path: /api/poi
+      - backend:
+          serviceName: poi
+          servicePort: 80
+        path: /swagger/docs/poi
       - backend:
           serviceName: trips
           servicePort: 80
-        path: /api/trips(.*)
+        path: /api/docs/trips
       - backend:
-          serviceName: user
+          serviceName: trips
           servicePort: 80
-        path: /api/user(.*)
+        path: /api/healthcheck/trips
+      - backend:
+          serviceName: trips
+          servicePort: 80
+        path: /api/trips
+      - backend:
+          serviceName: trips
+          servicePort: 80
+        path: /swagger/docs/trips
+      - backend:
+          serviceName: trips
+          servicePort: 80
+        path: /api/json
       - backend:
           serviceName: userprofile
           servicePort: 80
-        path: /api/user-java(.*)
+        path: /api/docs/user
+      - backend:
+          serviceName: userprofile
+          servicePort: 80
+        path: /api/healthcheck/user
+      - backend:
+          serviceName: userprofile
+          servicePort: 80
+        path: /api/user
+      - backend:
+          serviceName: userprofile
+          servicePort: 80
+        path: /swagger/docs/user
+      - backend:
+          serviceName: user
+          servicePort: 80
+        path: /api/docs/user-java
+      - backend:
+          serviceName: user
+          servicePort: 80
+        path: /api/documentation/user-java
+      - backend:
+          serviceName: user
+          servicePort: 80
+        path: /api/healthcheck/user-java
+      - backend:
+          serviceName: user
+          servicePort: 80
+        path: /api/user-java
+      - backend:
+          serviceName: user
+          servicePort: 80
+        path: /api/swagger-resources
+      - backend:
+          serviceName: user
+          servicePort: 80
+        path: /api/api-docs
+      - backend:
+          serviceName: insurance
+          servicePort: 80
+        path: /api
