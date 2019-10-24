@@ -87,3 +87,7 @@ spec:
           serviceName: user
           servicePort: 80
         path: /api/api-docs
+      - backend:
+          serviceName: insurance
+          servicePort: 80
+        path: /api

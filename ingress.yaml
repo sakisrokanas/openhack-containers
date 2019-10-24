@@ -86,3 +86,20 @@ spec:
           serviceName: userprofile
           servicePort: 80
         path: /user-java
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: insurance
+  namespace: api-dev
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: insurance.<CLUSTER_SPECIFIC_DNS_ZONE>
+    http:
+      paths:
+      - backend:
+          serviceName: insurance
+          servicePort: 80
+        path: /api
